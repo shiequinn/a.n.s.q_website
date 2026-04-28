@@ -17,16 +17,8 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
-app.use(express.static('public'));
-app.use(express.json());
-app.use('/', loginRoute);
-app.use('/api', routes);
-// Use your imported routes
-app.use('/api/reviews', routes);
-
-// Allowed origins for CORS
 const allowedOrigins = [
-  'https://shiequinn.com', // production domain
+  'https://shiequinn.com',
   'https://idesignwebsite-905e545d981b981b.herokuapp.com',
   'http://127.0.0.1:5500',
   'http://localhost:5500',
@@ -42,11 +34,13 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
+  credentials: true,
   optionsSuccessStatus: 200,
 }));
 
+app.use(express.static('public'));
+app.use(express.json());
 
-// Session setup
 app.use(session({
   secret: process.env.SECRET_KEY || 'defaultsecret',
   resave: false,
@@ -58,57 +52,36 @@ app.use(session({
   }
 }));
 
+app.use('/', loginRoute);
+app.use('/api', routes);
+app.use('/api/reviews', routes);
+app.options('*', cors());
 
-
-// Login route
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const [results] = await pool.query('SELECT * FROM xbxm73r0k93viqkl.users WHERE email = ?', [email]);
+    const [results] = await pool.query(
+      'SELECT * FROM xbxm73r0k93viqkl.users WHERE email = ?',
+      [email]
+    );
+
     if (results.length === 0) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+
     const user = results[0];
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (isMatch) {
-      res.json({ message: 'Login successful', userId: user.id });
+      return res.json({ message: 'Login successful', userId: user.id });
     } else {
-      res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Database error' });
+    return res.status(500).json({ message: 'Database error' });
   }
 });
 
-// Function to hash existing passwords (run once if needed)
-async function hashPasswords() {
-  try {
-    const [users] = await pool.query('SELECT * FROM xbxm73r0k93viqkl.users');
-    for (const user of users) {
-      const hashed = await bcrypt.hash(user.password, 10);
-      await pool.query('UPDATE xbxm73r0k93viqkl.users SET password = ? WHERE id = ?', [hashed, user.id]);
-    }
-    console.log('Password hashing completed.');
-  } catch (err) {
-    console.error('Error hashing passwords:', err);
-  }
-}
-// Uncomment this line to run hashing once
-// hashPasswords();
-
-// Register route
-app.post('/register', async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query('INSERT INTO xbxm73r0k93viqkl.users (email, password) VALUES (?, ?)', [email, hashedPassword]);
-    res.send('User registered successfully');
-  } catch (err) {
-    res.status(500).send('Error registering user');
-  }
-});
-
-// Fetch reviews
 app.get('/api/reviews', async (req, res) => {
   try {
     const [result] = await pool.query('SELECT * FROM xbxm73r0k93viqkl.reviews');
@@ -121,11 +94,8 @@ app.get('/api/reviews', async (req, res) => {
 
 app.get('/', (req, res) => res.send('Hello World'));
 
+
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
-});
-
-app.listen(3001, () => {
-  console.log('Server listening on port 3001');
 });

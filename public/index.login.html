@@ -53,37 +53,36 @@
 
     
  <script>
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const email = document.getElementById('loginEmail').value;
+    const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
 
-    fetch('https://shiequinn.com/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: email, password: password }), // updated here
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Invalid email or password');
+    try {
+      const res = await fetch('https://idesignwebsite-905e545d981b981b.herokuapp.com/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error('Login failed:', data);
+        alert(data.message || 'Login failed');
+        return;
       }
-    })
-    .then(data => {
-      // Save token in localStorage
-      if (data.token) {
-        localStorage.setItem('authToken', data.token);
-      }
-      alert(data.message);
-      // Redirect after login
-      window.location.href = '/index.review.html'; // adjust as needed
-    })
-    .catch(error => {
-      alert(error.message);
-    });
+
+      console.log('Login success:', data);
+      alert('Login successful');
+    } catch (err) {
+      console.error('Request error:', err);
+      alert('Something went wrong');
+    }
   });
 </script>
+</body>
+</html>

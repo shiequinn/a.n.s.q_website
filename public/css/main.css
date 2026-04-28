@@ -262,6 +262,11 @@ hr {
     color: #fff;
 }
 
+/* Transition for smooth animation */
+.hamburger .bar {
+  transition: all 0.3s ease;
+}
+
 /* Styles for transforming hamburger into "X" when open */
 .hamburger.open .bar:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
