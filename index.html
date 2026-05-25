@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <!-- Google Tag Manager -->
@@ -210,6 +211,7 @@
   <h2>Client Reviews</h2>
   <p>Here's what our clients have to say about us:</p>
 </div>
+
 <div class="reviews">
   <div class="reviews-container" id="reviews-container">
     <!-- Review form -->
@@ -221,6 +223,7 @@
 
         <!-- Star rating -->
 <div class="star-rating" role="radiogroup" aria-label="Rate our service">
+  <input type="hidden" id="ratingInput" name="rating" value="0" required>
           <span class="star" data-value="1" title="Rate 1" role="radio" aria-checked="false">&#9733;</span>
           <span class="star" data-value="2" title="Rate 2" role="radio" aria-checked="false">&#9733;</span>
           <span class="star" data-value="3" title="Rate 3" role="radio" aria-checked="false">&#9733;</span>
@@ -242,7 +245,50 @@
       </form>
     </div>
   </div>
+
+<!-- Review Slider using Swiper -->
+<div class="client-item-container">
+  <!-- Swiper -->
+  <div class="swiper" style="position: relative;"> <!-- Add a wrapper for positioning -->
+    <div class="swiper-wrapper" id="reviewWrapper">
+      <!-- Static sample review -->
+      <div class="swiper-slide review-item">
+        <div class="review-content">
+          <p class="client-name">John Doe</p>
+          <p class="client-position">Sample Position</p>
+          <p class="client-review">"This is a sample review for testing purposes. The review system works perfectly!"</p>
+        </div>
+      </div>
+      <!-- Existing reviews -->
+      <div class="swiper-slide review-item">
+        <div class="review-content">
+          <p class="client-name">John Spencer</p>
+          <p class="client-position">CEO of XYZ Company</p>
+          <p class="client-review">"iDesign Web Developer Company did an amazing job on our website. They were professional, responsive, and delivered high-quality work. Highly recommend!"</p>
+        </div>
+      </div>
+      <div class="swiper-slide review-item">
+        <div class="review-content">
+          <p class="client-name">Jane Smith</p>
+          <p class="client-position">Marketing Director</p>
+          <p class="client-review">"The team at iDesign Web Developer Company is fantastic! They helped us redesign our website and the results are incredible. Thank you!"</p>
+        </div>
+      </div>
+      <div class="swiper-slide review-item">
+        <div class="review-content">
+          <p class="client-name">Michael Johnson</p>
+          <p class="client-position">Founder of Tech Innovations</p>
+          <p class="client-review">"I was impressed with the level of expertise and creativity that iDesign Web Developer Company brought to our project. They exceeded our expectations!"</p>
+        </div>
+      </div>
+    </div>
+    <!-- Arrows and Pagination -->
+    <div class="swiper-button-next" id="nextBtn"></div>
+    <div class="swiper-button-prev" id="prevBtn"></div>
+    <div class="swiper-pagination"></div>
   </div>
+</div>
+</div>
   
     <!-- Footer -->
   <div class="footer">
@@ -265,5 +311,6 @@
 <script type="module" src="/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
  <script src="https://code.tidio.co/9plgaz98z8zr5lerfoujjwo3znycjqif.js" async></script>
+ <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   </body>
 </html>

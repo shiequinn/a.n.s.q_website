@@ -1536,24 +1536,25 @@ Video {
     /* Full width */
     height: 100%;
     /* Full height */
-    background-color: transparent;
+    background-color:transparent;
     /* Light background color */
     padding: 20px;
+    gap:30px;
     /* Inner spacing */
-    display: flex;
+    display:flex;
     /* Flexbox for layout */
-    flex-direction: column;
+    flex-direction:row;
     /* Column layout */
     border-radius: 10px;
-    align-items: start;
-    justify-content: start;
+    align-items: center;
+    justify-content:center;
     text-align: center;
 
 
 }
 
 .reviews-container {
-    width: 100%;
+    width:100%;
     /* Full width */
     height: 100%;
     /* Full height */
@@ -1593,20 +1594,26 @@ Video {
     display: flex;
     transition: transform 0.5s ease-in-out;
     overflow: hidden;
-    width: 100%;
+    width:100%;
+    height:100%;
 }
 
-.client-item-container {
+.client-item-container{
     position: relative;
-    max-width: 100%;
+    max-width: 60%;
     height: 100%;
     /* Auto height to fit content */
     margin: 20px;
     padding: 20px;
 
 }
+.swiper-wrapper{
+    width:100%;
+
+}
 
 .review-slider {
+    width:100%;
     position: relative;
     display: flex;
     align-items: center;
@@ -1648,7 +1655,7 @@ Video {
     align-items: center;
     justify-content: center;
     background-color: beige;
-    width: 80%;
+    width:100%;
     margin: 20px auto;
     /* Center the container */
     padding: 20px;
@@ -1662,19 +1669,14 @@ Video {
 }
 
 .review-item {
-    width: 100%;
-    /* Fixed width for each review box */
+    width:100%;
     height: auto;
-    /* Auto height to fit content */
     background-color: transparent;
-    display: none;
+    display: block; /* or just remove this line so default applies */
     align-items: center;
     flex-direction: row;
-    /* Row layout for profile and text */
     justify-content: flex-start;
-    /* Align items to the start */
     margin: 10px;
-    /* Space between review boxes */
 }
 .review-item.active {
   display: flex; /* or block, to show the selected review */
@@ -1794,7 +1796,7 @@ Video {
 
 /* Responsive Design for reviews section */
 @media(max-width: 840px){
-    .review {
+    .reviews {
         width: 100%;
         height:600px;
         padding: 0;
@@ -1879,7 +1881,7 @@ Video {
 
 
 @media (max-width: 460px) {
-    .review {
+    .reviews {
         width: 100%;
         height: auto;
         padding: 0;
@@ -2016,13 +2018,13 @@ Video {
 
 }
 @media (max-width: 390px) {
-    .review {
+    .reviews {
         width: 100%;
         height: auto;
         padding:0;
         margin: 0;
         /* Auto height to fit content */
-        flex-direction: column;
+        flex-direction:column;
         /* Stack items vertically */
         align-items:center;
         /* Center items horizontally */
@@ -2037,7 +2039,8 @@ Video {
         width: 100%;
         /* Full width for smaller screens */
         height: auto;
-        flex-direction: column;
+        display: flex;
+        flex-direction:column;
         /* Stack items vertically */
         align-items: center;
         /* Center items horizontally */
@@ -2049,6 +2052,7 @@ Video {
         width: 100%;
         /* Full width for smaller screens */
         height: auto;
+display:flex;
         /* Auto height to fit content */
         margin: 0;
         padding:0;
@@ -2060,14 +2064,16 @@ Video {
         /* Full width for smaller screens */
         height: auto;
         /* Auto height to fit content */
-        flex-direction: column;
+        flex-direction:column;
         /* Stack items vertically */
         align-items: center;
         /* Center items horizontally */
     }
     .review-form{
-        width: 100%;
+        width:100%;
         height: auto;
+        display:flex;
+align-items: center;
         /* Full width for smaller screens */
         padding: 3px;
         /* Adjust padding for smaller screens */

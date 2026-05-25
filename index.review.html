@@ -34,7 +34,7 @@
       <div class="swiper-slide review-item">
         <div class="review-content">
           <p class="client-name">John Spencer</p>
-          <p class="client-position">CEO of XYZ Company</p>
+          <p class="client-position">multifix solutions</p>
           <p class="client-review">"iDesign Web Developer Company did an amazing job on our website. They were professional, responsive, and delivered high-quality work. Highly recommend!"</p>
         </div>
       </div>
@@ -54,7 +54,7 @@
       </div>
     </div>
     <!-- Add Arrows -->
-    <div class="swiper-button-next" id="nextBtn"></div>
+    <div class="swper-button-next" id="nextBtn"></div>
     <div class="swiper-button-prev" id="prevBtn"></div>
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
@@ -76,68 +76,87 @@
 
 
  <script>
-  let swiper;
+let swiper;
 
-  // Load reviews from API and initialize/update Swiper
-  async function loadReviews() {
-    try {
-      const response = await fetch('https://idesignwebsite-905e545d981b.herokuapp.com/api/reviews', {
-        headers: {
-          'Authorization': '972431bb52be49cddd3f36420df375d54f21151f8551d06548aba499deb56e5b' // Replace with your token
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch reviews');
+function renderReviews() {
+  const wrapper = document.getElementById('reviewWrapper');
+  wrapper.innerHTML = ''; // Clear existing slides
 
-      const reviews = await response.json();
-      const wrapper = document.getElementById('reviewWrapper');
-
-      // Clear existing reviews
-      wrapper.innerHTML = '';
-
-      // Append reviews fetched from API
-      reviews.forEach(review => {
-        const reviewDiv = document.createElement('div');
-        reviewDiv.className = 'swiper-slide review-item';
-
-        reviewDiv.innerHTML = `
-          <div class="review-content">
-            <p class="client-name">${review.name}</p>
-            <p class="client-position">${review.position}</p>
-            <p class="client-review">"${review.review}"</p>
-            
-          </div>
-        `;
-        wrapper.appendChild(reviewDiv);
-      });
-
-      // Initialize or update Swiper
-      if (swiper) {
-        swiper.update();
-      } else {
-        swiper = new Swiper('.mySwiper', {
-          slidesPerView: 1,
-          spaceBetween: 10,
-          navigation: {
-            nextEl: '#nextBtn',
-            prevEl: '#prevBtn',
-          },
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-          },
-        });
-      }
-    } catch (error) {
-      console.error('Error loading reviews:', error);
-    }
-  }
-
-
-  // Initialize reviews on DOM load
-  document.addEventListener('DOMContentLoaded', () => {
-    loadReviews();
+  reviews.forEach((rev) => {
+    const slide = document.createElement('div');
+    slide.className = 'swiper-slide review-item';
+    slide.innerHTML = `
+      <div class="review-content">
+        <p class="client-name">${rev.name}</p>
+        <p class="client-position">${rev.position}</p>
+        <p class="client-review">"${rev.review}"</p>
+      </div>
+    `;
+    wrapper.appendChild(slide);
   });
+}
+
+function initializeSwiper() {
+  if (swiper) {
+    swiper.destroy(true, true);
+  }
+  swiper = new Swiper('.swiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: true,
+    navigation: {
+      nextEl: '#nextBtn',
+      prevEl: '#prevBtn',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+}
+
+// Function to add a review and update slider
+function addReviewAndSlide(review) {
+  reviews.push(review);
+  renderReviews();
+  initializeSwiper();
+
+  // Wait until Swiper is initialized and then slide to the last (newest) review
+  // Use setTimeout to ensure Swiper has initialized
+  setTimeout(() => {
+    if (swiper) {
+      // slideToLoop slides to the last slide in loop mode
+      swiper.slideToLoop(reviews.length - 1);
+    }
+  }, 100);
+}
+
+// When user submits review
+document.getElementById('clientReviewForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const name = document.getElementById('clientName').value.trim();
+  const position = document.getElementById('clientPosition').value.trim();
+  const reviewText = document.getElementById('clientReview').value.trim();
+
+  if (name && position && reviewText) {
+    addReviewAndSlide({
+      name,
+      position,
+      review: reviewText
+    });
+
+    // Optional: Clear form
+    document.getElementById('clientReviewForm').reset();
+  }
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  renderReviews();
+  initializeSwiper();
+});
 </script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 </body>
 </html>
