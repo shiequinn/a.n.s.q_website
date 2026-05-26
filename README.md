@@ -1,7 +1,5 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
-
-https://shiequinn.com/
 <<<<<<< HEAD
 
 =======
